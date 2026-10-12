@@ -1,0 +1,28 @@
+name: Check Scrum project
+
+on:
+  schedule:
+    - cron: "17 7 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  check-project:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+      PROJECT_OWNER: Bit-Academy-Students
+      PROJECT_NUMBER: ${{ vars.PROJECT_NUMBER }}
+      BACKLOG_STATUS: Backlog
+      DONE_STATUS: Done
+      SPRINT_STATUSES: Sprint (To do),In progress,In review
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate project configuration
+        run: |
+          test -n "$GH_TOKEN" || (echo "Missing PROJECT_TOKEN Actions secret." && exit 1)
+          test -n "$PROJECT_NUMBER" || (echo "Missing PROJECT_NUMBER repository variable." && exit 1)
+      - name: Check incomplete backlog and sprint stories
+        run: python .github/scripts/check_project.py
