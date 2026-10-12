@@ -56,7 +56,7 @@ In the team project copy:
 - Ensure fields include:
   - `Priority` (MoSCoW)
   - `Points`
-  - `Iteration`
+  - `Sprint`
 - Ensure views include:
   - Drafts/refinement
   - Backlog
