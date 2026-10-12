@@ -35,13 +35,19 @@ query($owner: String!, $number: Int!) {
           }
           fieldValues(first: 30) {
             nodes {
-              ... on ProjectV2ItemFieldSingleSelectValue { name field { name } }
-              ... on ProjectV2ItemFieldNumberValue { number field { name } }
+              ... on ProjectV2ItemFieldSingleSelectValue { 
+                name 
+                field { ... on ProjectV2FieldCommon { name } } 
+              }
+              ... on ProjectV2ItemFieldNumberValue { 
+                number
+                field { ... on ProjectV2FieldCommon { name } }
+              }
               ... on ProjectV2ItemFieldIterationValue {
                 title
                 startDate
                 duration
-                field { name }
+                field { ... on ProjectV2FieldCommon { name } }
               }
             }
           }
@@ -61,13 +67,17 @@ REQUIRED_SECTIONS = (
 
 
 def run(*args, input_text=None):
-    return subprocess.run(
+    result = subprocess.run(
         args,
         input=input_text,
-        check=True,
+        check=False,
         text=True,
         capture_output=True,
-    ).stdout
+    )
+    if result.returncode != 0:
+        print(result.stderr or result.stdout, file=sys.stderr)
+        sys.exit(f"Command failed: {' '.join(args[:3])}")
+    return result.stdout
 
 
 def project_items():
