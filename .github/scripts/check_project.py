@@ -110,22 +110,23 @@ def values(item):
     return result
 
 
+def try_run(*args):
+    result = subprocess.run(args, check=False, text=True, capture_output=True)
+    if result.returncode != 0:
+        print(f"::warning::{' '.join(args[:4])} failed: {(result.stderr or result.stdout).strip()}")
+    return result.returncode == 0
+
+
 def add_label(repo, issue, label, color, description):
-    subprocess.run(
-        ["gh", "label", "create", label, "--repo", repo, "--color", color, "--description", description, "--force"],
-        check=False,
-        text=True,
-        capture_output=True,
+    try_run(
+        "gh", "label", "create", label, "--repo", repo,
+        "--color", color, "--description", description, "--force",
     )
-    subprocess.run(
-        ["gh", "issue", "edit", str(issue), "--repo", repo, "--add-label", label],
-        check=False,
-        text=True,
-        capture_output=True,
-    )
+    try_run("gh", "issue", "edit", str(issue), "--repo", repo, "--add-label", label)
 
 
 def remove_label(repo, issue, label):
+    # Fails harmlessly when the label isn't on the issue, so no warning here.
     subprocess.run(
         ["gh", "issue", "edit", str(issue), "--repo", repo, "--remove-label", label],
         check=False,
