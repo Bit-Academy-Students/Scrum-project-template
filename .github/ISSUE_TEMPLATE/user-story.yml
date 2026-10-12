@@ -1,0 +1,60 @@
+name: User story
+description: Maak één verfijnde user story voor de backlog.
+title: "Als … wil ik … zodat …"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Een issue is altijd één user story. Nieuwe, nog onuitgewerkte ideeën horen eerst als draft in GitHub Projects.
+
+        Lees de [Definition of Ready](../blob/main/docs/definition-of-ready.md) voordat je deze story indient.
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User story
+      description: Beschrijf de gebruiker, behoefte en waarde.
+      placeholder: "Als [gebruiker] wil ik [doel] zodat [waarde]."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptatiecriteria
+      description: Welke concrete, toetsbare voorwaarden bepalen dat deze story werkt?
+      placeholder: |
+        - [ ] Gegeven … wanneer … dan …
+        - [ ] …
+    validations:
+      required: true
+  - type: textarea
+    id: testing-plan
+    attributes:
+      label: Testplan
+      description: Leg uit hoe het team de acceptatiecriteria controleert.
+      placeholder: |
+        - Handmatige test: …
+        - Geautomatiseerde test: …
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Ontwerp / UML-diagrammen
+      description: Voeg links, Mermaid-diagrammen, wireframes of een korte onderbouwing toe. Schrijf "N.v.t. – [reden]" als geen ontwerp nodig is.
+      placeholder: "Link of toelichting"
+    validations:
+      required: true
+  - type: checkboxes
+    id: ready
+    attributes:
+      label: Definition of Ready
+      description: Deze punten zijn nodig voordat de story naar Backlog mag.
+      options:
+        - label: De story is klein genoeg om in één sprint af te ronden.
+          required: true
+        - label: De acceptatiecriteria en het testplan zijn concreet en toetsbaar.
+          required: true
+        - label: Afhankelijkheden, ontwerp en open vragen zijn beschreven of opgelost.
+          required: true
+        - label: Ik bespreek Priority en Points tijdens refinement in GitHub Projects.
+          required: true

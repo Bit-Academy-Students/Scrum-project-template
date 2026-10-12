@@ -1,0 +1,39 @@
+name: Create linked story branch
+
+on:
+  issues:
+    types: [assigned]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  create-branch:
+    if: github.event.issue.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a linked branch when the story receives its first owner
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          if gh issue develop "$ISSUE_NUMBER" --list --repo "$REPOSITORY" >/tmp/issue-branches.txt 2>/dev/null; then
+            if [ -s /tmp/issue-branches.txt ]; then
+              echo "A linked branch already exists for issue #$ISSUE_NUMBER."
+              exit 0
+            fi
+          fi
+
+          slug="$(printf '%s' "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g' | cut -c1-48)"
+          branch="story-${ISSUE_NUMBER}${slug:+-$slug}"
+
+          gh issue develop "$ISSUE_NUMBER" \
+            --repo "$REPOSITORY" \
+            --base "$DEFAULT_BRANCH" \
+            --name "$branch"
