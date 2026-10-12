@@ -30,6 +30,12 @@ query($owner: String!, $number: Int!) {
               body
               repository { nameWithOwner }
               assignees(first: 1) { totalCount }
+              issueFieldValues(first: 20) {
+                nodes {
+                  ... on IssueFieldSingleSelectValue { name field { ... on IssueFieldCommon { name } } }
+                  ... on IssueFieldNumberValue { value field { ... on IssueFieldCommon { name } } }
+                }
+              }
             }
           }
           fieldValues(first: 30) {
@@ -183,6 +189,10 @@ def main():
             continue
 
         fields = values(item)
+        for value in (content.get("issueFieldValues") or {}).get("nodes") or []:
+            name = (value.get("field") or {}).get("name")
+            if name:
+                fields[name] = value.get("value", value.get("name"))
         status = fields.get("Status")
         repo = content["repository"]["nameWithOwner"]
         issue = content["number"]
@@ -212,7 +222,7 @@ def main():
         sprint_problems = []
         if status in SPRINT_STATUSES and content["assignees"]["totalCount"] != 1:
             sprint_problems.append("story must have exactly one assignee")
-        if status != DONE_STATUS and iteration_has_ended(fields.get("Iteration")):
+        if status != DONE_STATUS and iteration_has_ended(fields.get("Sprint")):
             sprint_problems.append("iteration has ended; move, split, or finish the story")
 
         if sprint_problems:

@@ -1,6 +1,7 @@
 name: User story
 description: Maak één verfijnde user story voor de backlog.
 title: "Als … wil ik … zodat …"
+type: User Story
 body:
   - type: markdown
     attributes:

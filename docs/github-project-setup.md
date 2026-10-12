@@ -4,12 +4,14 @@ Maak vanuit het organisatieproject een kopie per team. Koppel daarna precies é�
 
 ## Velden
 
+Issuetype `User Story` en de issuevelden `Priority` en `Points` worden op organisatieniveau beheerd (Organization settings → Planning). Voeg ze in het project als kolom toe.
+
 | Naam | Type | Waarden / afspraak |
 | --- | --- | --- |
 | Status | Single select | `Draft`, `Backlog`, `Sprint (To do)`, `In progress`, `In review`, `Done` |
-| Iteration | Iteration | Standaard één week. Pas de duur van alleen de betreffende iteratie aan als een sprint twee weken duurt. |
-| Priority | Single select | `Must have`, `Should have`, `Could have`, `Won't have` |
-| Points | Number | Story points zonder ureninschatting |
+| Sprint | Iteration | Standaard één week. Pas de duur van alleen de betreffende iteratie aan als een sprint twee weken duurt. |
+| Priority | Org-issueveld (single select) | `Must have`, `Should have`, `Could have`, `Won't have` |
+| Points | Org-issueveld (number) | Story points zonder ureninschatting |
 | Milestone | Built-in | Optionele epic |
 | Assignees | Built-in | Eén eigenaar zodra de story aan een sprint wordt toegevoegd |
 
@@ -17,9 +19,9 @@ Maak vanuit het organisatieproject een kopie per team. Koppel daarna precies é�
 
 1. Drafts / refinement — table, filter `Status: Draft`.
 2. Backlog — table, filter `Status: Backlog`; sorteer eerst op Priority en groepeer eventueel op Milestone.
-3. Current sprint — board, filter `Iteration: @current`; groepeer op Status en gebruik Assignees als swimlane.
-4. Next sprint — table, filter `Iteration: @next`.
-5. Roadmap — roadmap, gebruik Iteration als datum en groepeer op Milestone.
+3. Current sprint — board, filter `sprint:@current`; groepeer op Status en gebruik Assignees als swimlane.
+4. Next sprint — table, filter `sprint:@next`.
+5. Roadmap — roadmap, gebruik Sprint als datum en groepeer op Milestone.
 
 Gebruik geen losse view per sprint: `@current` en `@next` veranderen automatisch wanneer een sprint wisselt.
 
