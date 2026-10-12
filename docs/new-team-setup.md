@@ -95,11 +95,6 @@ Teachers/admins may keep bypass permission.
 
 Token must be able to read org projects and (if needed) interact with issues in repos covered by the workflow behavior.
 
-### Variable
-
-- `PROJECT_NUMBER` is optional if the checker auto-detects the linked project.
-- If you use manual override mode, set it to the project number.
-
 ---
 
 ## 7) First validation test (do this once per team)
