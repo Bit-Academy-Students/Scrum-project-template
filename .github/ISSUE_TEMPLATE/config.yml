@@ -1,5 +1,1 @@
 blank_issues_enabled: false
-contact_links:
-  - name: Scrum-afspraak
-    url: docs/definition-of-ready.md
-    about: Controleer eerst de Definition of Ready voordat je een story indient.

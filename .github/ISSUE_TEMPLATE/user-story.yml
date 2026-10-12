@@ -7,7 +7,7 @@ body:
       value: |
         Een issue is altijd één user story. Nieuwe, nog onuitgewerkte ideeën horen eerst als draft in GitHub Projects.
 
-        Lees de [Definition of Ready](../../blob/main/docs/definition-of-ready.md) voordat je deze story indient.
+        Lees de [Definition of Ready](../blob/main/docs/definition-of-ready.md) voordat je deze story indient.
   - type: textarea
     id: user-story
     attributes:
