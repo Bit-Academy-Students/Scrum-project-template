@@ -75,7 +75,9 @@ Enable built-in workflows:
 
 ## 5) Configure repository branch protection/ruleset
 
-For branch `main`, require:
+Rulesets are not copied from the template. Import [`main_branch_protection.json`](./main_branch_protection.json) in the new repo (Settings → Rules → Rulesets → New ruleset → Import a ruleset). See [main-branch-ruleset.md](./main-branch-ruleset.md).
+
+The ruleset requires for branch `main` (including a passing `ci` status check, see main-branch-ruleset.md):
 
 - pull request before merge
 - at least 1 approval

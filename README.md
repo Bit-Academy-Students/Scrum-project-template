@@ -54,6 +54,8 @@ De `main` branch wordt beschermd tegen onveilige merges. Denk aan:
 - reviewcommentaar moet opgelost zijn
 - geen directe merge zonder goedkeuring
 
+Rulesets worden niet meegekopieerd bij het maken van een repository vanuit deze template. Importeer na het aanmaken `docs/main_branch_protection.json` (Settings → Rules → Rulesets → Import a ruleset). Zie `docs/main-branch-ruleset.md`.
+
 ## Werkwijze per sprint
 
 - check de backlog
