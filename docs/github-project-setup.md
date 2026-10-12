@@ -40,7 +40,7 @@ Schakel in het project de volgende ingebouwde workflows in:
 De workflow `check-project.yml` controleert dagelijks of backlog- en sprintstories compleet zijn.
 
 1. Maak in de teamrepo een Actions-secret `PROJECT_TOKEN`. Gebruik een fine-grained personal access token van een beheerder met toegang tot de organisatie en Projects: read. Het token moet ook de gekoppelde repository kunnen lezen en issues kunnen bewerken.
-2. Maak een repository variable `PROJECT_NUMBER` met het nummer van het gekopieerde organisatieproject. Bijvoorbeeld: voor `orgs/Bit-Academy-Students/projects/12` is de waarde `12`.
+2. Het projectnummer is niet nodig: de checker gebruikt het project dat aan de repository is gekoppeld (precies één open project). Alleen als er meerdere projecten gekoppeld zijn kun je een repository variable `PROJECT_NUMBER` zetten.
 3. Als de statusnamen in het project afwijken, pas de omgevingsvariabelen bovenaan `.github/workflows/check-project.yml` aan.
 
 De checker voegt labels toe in plaats van stories automatisch te verplaatsen: `needs-refinement` voor onvolledige Backlog-stories en `needs-sprint-attention` voor stories zonder eigenaar of na een verstreken sprint. Het team beslist vervolgens zelf hoe de story wordt aangepast.
