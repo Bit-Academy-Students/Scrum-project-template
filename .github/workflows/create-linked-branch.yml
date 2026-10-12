@@ -36,5 +36,4 @@ jobs:
           gh issue develop "$ISSUE_NUMBER" \
             --repo "$REPOSITORY" \
             --base "$DEFAULT_BRANCH" \
-            --name "$branch" \
-            --yes
+            --name "$branch"
