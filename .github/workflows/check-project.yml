@@ -23,6 +23,5 @@ jobs:
       - name: Validate project configuration
         run: |
           test -n "$GH_TOKEN" || (echo "Missing PROJECT_TOKEN Actions secret." && exit 1)
-          test -n "$PROJECT_NUMBER" || (echo "Missing PROJECT_NUMBER repository variable." && exit 1)
       - name: Check incomplete backlog and sprint stories
         run: python .github/scripts/check_project.py

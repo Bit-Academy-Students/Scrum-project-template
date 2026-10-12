@@ -8,7 +8,6 @@ import subprocess
 import sys
 
 OWNER = os.environ["PROJECT_OWNER"]
-PROJECT_NUMBER = int(os.environ["PROJECT_NUMBER"])
 BACKLOG_STATUS = os.environ.get("BACKLOG_STATUS", "Backlog")
 DONE_STATUS = os.environ.get("DONE_STATUS", "Done")
 SPRINT_STATUSES = {
@@ -58,12 +57,45 @@ query($owner: String!, $number: Int!) {
 }
 """
 
+LINKED_QUERY = """
+query($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    projectsV2(first: 20) { nodes { number title closed } }
+  }
+}
+"""
+
 REQUIRED_SECTIONS = (
     "### User story",
     "### Acceptatiecriteria",
     "### Testplan",
     "### Ontwerp / UML-diagrammen",
 )
+
+def resolve_project_number():
+    # An explicit PROJECT_NUMBER still wins, e.g. for the template repo itself.
+    override = os.environ.get("PROJECT_NUMBER", "").strip()
+    if override:
+        return int(override)
+
+    owner, name = os.environ["GITHUB_REPOSITORY"].split("/")
+    data = json.loads(run(
+        "gh", "api", "graphql",
+        "-f", f"query={LINKED_QUERY}",
+        "-F", f"owner={owner}",
+        "-F", f"name={name}",
+    ))
+    projects = [
+        p for p in data["data"]["repository"]["projectsV2"]["nodes"]
+        if not p["closed"]
+    ]
+    if len(projects) != 1:
+        found = ", ".join(f"#{p['number']} {p['title']}" for p in projects) or "none"
+        sys.exit(
+            f"Expected exactly one open project linked to {owner}/{name}, found: {found}. "
+            "Link one project to this repo, or set the PROJECT_NUMBER variable."
+        )
+    return projects[0]["number"]
 
 
 def run(*args, input_text=None):
@@ -81,16 +113,17 @@ def run(*args, input_text=None):
 
 
 def project_items():
+    project_number = resolve_project_number()
     result = run(
         "gh", "api", "graphql",
         "-f", f"query={QUERY}",
         "-F", f"owner={OWNER}",
-        "-F", f"number={PROJECT_NUMBER}",
+        "-F", f"number={project_number}",
     )
     data = json.loads(result)
     project = data.get("data", {}).get("organization", {}).get("projectV2")
     if not project:
-        sys.exit(f"Project {OWNER}/{PROJECT_NUMBER} could not be read.")
+        sys.exit(f"Project {OWNER}/{project_number} could not be read.")
     return project["items"]["nodes"]
 
 
