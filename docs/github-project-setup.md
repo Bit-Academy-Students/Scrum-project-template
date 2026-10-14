@@ -27,13 +27,23 @@ Gebruik geen losse view per sprint: `@current` en `@next` veranderen automatisch
 
 ## Workflows
 
-Schakel in het project de volgende ingebouwde workflows in:
+Projectworkflows worden niet meegekopieerd en staan na het kopiëren uit. Schakel in het project de volgende ingebouwde workflows in:
 
 - Auto-add to project: selecteer de teamrepository en gebruik filter `is:issue`; zet nieuwe items op Backlog.
-- Item closed → Done.
+- Item closed → Done (verplicht; anders blijft een gesloten story in een oude status staan).
 - Pull request merged → Done.
 - Item reopened → In progress.
 - Auto-archive: archiveer Done-items na de afgesproken periode, bijvoorbeeld 14 dagen.
+
+## Merge-controle `story-status`
+
+De workflow `story-status.yml` blokkeert (via de ruleset) een pull request tenzij de gekoppelde story:
+
+- via `Closes #nummer` precies één story is,
+- issuetype `User Story` heeft en precies één assignee,
+- in het project de status `In progress` of `In review` heeft.
+
+Zet de status dus eerst handmatig goed en start de check daarna opnieuw (Re-run in het tabblad Checks): een statuswijziging in het project start geen workflow. Dependabot- en fork-PR's hebben geen toegang tot `PROJECT_TOKEN` en kunnen de check niet doorstaan; een beheerder kan die omzeilen.
 
 ## Actions-configuratie
 

@@ -22,7 +22,7 @@ De ruleset wordt niet meegekopieerd wanneer GitHub een repository vanuit deze te
 3. Selecteer [`main_branch_protection.json`](./main_branch_protection.json) uit deze map.
 4. Controleer dat **Enforcement status** op *Active* staat en kies **Create**.
 
-Het bestand bevat: pull request met 1 approval (extra approval bij unattributed changes, zodat een Copilot-review zonder auteur de approval niet kan vervangen), stale reviews dismissen bij nieuwe pushes, review-threads oplossen, verplichte status check `ci` (branch moet up-to-date zijn), geen force pushes, geen branch deletion. Repository admins mogen bypassen.
+Het bestand bevat: pull request met 1 approval (extra approval bij unattributed changes, zodat een Copilot-review zonder auteur de approval niet kan vervangen), stale reviews dismissen bij nieuwe pushes, review-threads oplossen, verplichte status checks `ci` en `story-status` (branch moet up-to-date zijn), geen force pushes, geen branch deletion. Repository admins mogen bypassen.
 
 ## Status check `ci` instellen
 
@@ -46,5 +46,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo "voeg hier build/test commando's toe"
 ```
+
+De check `story-status` (workflow `story-status.yml`) controleert dat de gekoppelde story de juiste status en een eigenaar heeft; zie [github-project-setup.md](./github-project-setup.md). Hij vereist het Actions-secret `PROJECT_TOKEN`; zonder dat secret kan geen enkele PR gemerged worden.
 
 Heeft een project (nog) geen CI, verwijder dan tijdelijk de regel `required_status_checks` uit de ruleset.

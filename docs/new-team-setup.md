@@ -64,12 +64,13 @@ In the team project copy:
   - Next sprint
   - Roadmap
 
-Enable built-in workflows:
+Project workflows are **not** copied from the template and start disabled. Enable these in the project (⋯ → Workflows):
 
-- Item closed → Done
+- Item closed → Done (required: without it a merged and closed story stays in its old status)
 - Pull request merged → Done
 - Item reopened → In progress
-- Auto-add issues from the linked repo (filter: `is:issue`, default status: Backlog)
+- Auto-add to project: select the team repo, filter `is:issue is:open` (new stories start as Draft or Backlog)
+- Item added to project (sets the initial status)
 
 ---
 
@@ -105,8 +106,9 @@ Token must be able to read org projects and (if needed) interact with issues in 
    - linked branch should be created automatically.
 4. Open a PR with `Closes #<issue-number>`.
 5. Confirm PR template appears and review approval is required.
-6. Run **Check Scrum project** workflow manually once.
-7. Confirm missing fields/sections are detected as expected.
+6. Merge the PR and confirm the story closes and moves to Done. Check that **story-status** blocks a PR whose story is not In progress/In review.
+7. Run **Check Scrum project** workflow manually once.
+8. Confirm missing fields/sections are detected as expected.
 
 ---
 

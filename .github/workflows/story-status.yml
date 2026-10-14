@@ -1,0 +1,21 @@
+name: Story status
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  story-status:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+      PROJECT_NUMBER: ${{ vars.PROJECT_NUMBER }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      MERGE_STATUSES: In progress,In review
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the linked story
+        run: python .github/scripts/check_story_status.py
